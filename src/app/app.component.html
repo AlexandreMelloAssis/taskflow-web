@@ -1,0 +1,33 @@
+<main class="container">
+  <h1>TaskFlow</h1>
+
+  <form class="new-task" (ngSubmit)="createTask()">
+    <input
+      type="text"
+      placeholder="New task title"
+      [(ngModel)]="newTitle"
+      name="title"
+      required
+    />
+    <button type="submit" [disabled]="!newTitle.trim()">Add</button>
+  </form>
+
+  <ul class="task-list">
+    @for (task of tasks(); track task.id) {
+      <li class="task" [class.done]="task.status === 'Done'">
+        <div class="task-info">
+          <span class="title">{{ task.title }}</span>
+          <span class="status">{{ task.status }}</span>
+        </div>
+        <div class="task-actions">
+          @if (task.status !== 'Done') {
+            <button (click)="markDone(task.id)">Mark done</button>
+          }
+          <button class="delete" (click)="removeTask(task.id)">Delete</button>
+        </div>
+      </li>
+    } @empty {
+      <li class="empty">No tasks yet — add one above.</li>
+    }
+  </ul>
+</main>
